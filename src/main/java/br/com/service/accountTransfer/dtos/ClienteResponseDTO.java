@@ -1,11 +1,15 @@
 package br.com.service.accountTransfer.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class ClienteResponseDTO {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClienteResponseDTO implements Serializable {
 
     private String id;
     private String nome;

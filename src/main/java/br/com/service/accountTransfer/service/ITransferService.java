@@ -4,5 +4,5 @@ import br.com.service.accountTransfer.dtos.TransferenciaRequestDTO;
 import br.com.service.accountTransfer.dtos.TransferenciaResponseDTO;
 
 public interface ITransferService {
-    TransferenciaResponseDTO makeTransfer(TransferenciaRequestDTO transfer);
+    TransferenciaResponseDTO transferBalance(TransferenciaRequestDTO transfer);
 }

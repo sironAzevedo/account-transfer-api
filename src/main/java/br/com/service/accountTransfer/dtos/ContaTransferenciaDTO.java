@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ContaDTO {
+public class ContaTransferenciaDTO {
     private String idOrigem;
     private String idDestino;
 }

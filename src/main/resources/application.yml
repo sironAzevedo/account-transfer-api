@@ -4,6 +4,15 @@ server:
 spring:
   application:
     name: accountTransfer
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      write_dates_as_timestamps: false
+  redis:
+    password: ${REDIS_PASSWORD:}
+    database: ${REDIS_DATABASE:0}
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
 
 api:
   client:
@@ -13,3 +22,9 @@ api:
   bacen:
     notificacao:
       url: http://localhost:9090/notificacoes
+
+cache:
+  redis:
+    caches[0]:
+      cacheName: account-transfer:dadosClientePorCodigo
+      expiration: ${CACHE_DURATION_DADOS_PESSOA:PT30S}

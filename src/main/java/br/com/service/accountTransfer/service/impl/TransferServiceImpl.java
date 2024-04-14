@@ -1,14 +1,14 @@
 package br.com.service.accountTransfer.service.impl;
 
-import br.com.service.accountTransfer.dtos.ContaResponseDTO;
-import br.com.service.accountTransfer.dtos.TransferenciaRequestDTO;
-import br.com.service.accountTransfer.dtos.TransferenciaResponseDTO;
+import br.com.service.accountTransfer.dtos.*;
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
 import br.com.service.accountTransfer.handler.exception.ClientNotFoundException;
+import br.com.service.accountTransfer.service.IBacenService;
 import br.com.service.accountTransfer.service.IClienteService;
 import br.com.service.accountTransfer.service.IContaService;
 import br.com.service.accountTransfer.service.ITransferService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,22 +27,29 @@ public class TransferServiceImpl implements ITransferService {
 
     private final IClienteService clienteService;
     private final IContaService contaService;
+    private final IBacenService bacenService;
 
     @Override
     @Transactional
-    public TransferenciaResponseDTO makeTransfer(TransferenciaRequestDTO transfer) {
+    public TransferenciaResponseDTO transferBalance(@NonNull TransferenciaRequestDTO transfer) {
 
-        // Validar se o cliente que vai receber a transferência existe passando o idCliente na API de Cadastro
-        Optional.ofNullable(clienteService.getContaById(transfer.getIdCliente()))
+        log.info("Veririficando se o cliente {} existe.", transfer.getIdCliente());
+        Optional.ofNullable(clienteService.getById(transfer.getIdCliente()))
                 .orElseThrow(() -> new ClientNotFoundException("Client not found"));
 
-        // Buscar dados da conta origem passando idConta na API de Contas
+        log.info("Buscando dados da conta {}.", transfer.getConta().getIdOrigem());
         var conta = Optional.ofNullable(contaService.getContaById(transfer.getConta().getIdOrigem()))
-                .orElseThrow(() -> new AccountNotFoundException("Conta origem not found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account origin not found"));
 
-        validarTransferencia(conta, transfer.getValor());
+        log.info("Verificando se a transferencia pode ser realizada.");
+        validTransfer(conta, transfer.getValor());
+
+        log.info("Realizando a transferencia");
+        realizarTransferencia(transfer);
 
         // Notificar o BACEN que a transação foi concluída com sucesso.
+        log.info("Notificando que a transferencia foi realizando com sucesso ");
+        notificarBacen(transfer);
 
         return TransferenciaResponseDTO.builder()
                 .idTransferencia(UUID.randomUUID())
@@ -52,9 +59,27 @@ public class TransferServiceImpl implements ITransferService {
     // Validar se a conta corrente está ativa
     // Validar se o cliente tem saldo disponível na conta corrente para realizar a transferência
     // Validar se o limite diário do cliente é maior que zero e maior que o valor da transferência a ser realizada
-    private void validarTransferencia(ContaResponseDTO conta, BigDecimal valor) {
+    private void validTransfer(@NonNull ContaResponseDTO conta, @NonNull BigDecimal valor) {
         if (!conta.isAtivo()) throw new BusinessException(UNPROCESSABLE_ENTITY, "Conta não está ativa.");
         if (conta.getSaldo().compareTo(valor) < 0) throw new BusinessException(UNPROCESSABLE_ENTITY,"Saldo insuficiente.");
         if (conta.getLimiteDiario().compareTo(valor) < 0) throw new BusinessException(UNPROCESSABLE_ENTITY,"Limite diário excedido.");
+    }
+
+    private void realizarTransferencia(@NonNull TransferenciaRequestDTO transfer) {
+        var saldo = SaldoRequestDTO.builder()
+                .valor(transfer.getValor())
+                .conta(transfer.getConta())
+                .build();
+
+        contaService.transferBalance(saldo);
+    }
+
+    private void notificarBacen(@NonNull TransferenciaRequestDTO transfer) {
+        var notification = NotificacaoRequestDTO.builder()
+                .valor(transfer.getValor())
+                .conta(transfer.getConta())
+                .build();
+
+        bacenService.notification(notification);
     }
 }

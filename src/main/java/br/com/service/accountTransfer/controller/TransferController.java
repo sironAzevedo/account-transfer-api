@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,12 +29,13 @@ public class TransferController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Sucesso"),
             @ApiResponse(responseCode = "400", description = "Erro de validação de campo"),
+            @ApiResponse(responseCode = "422", description = "Erro de negocio"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    public TransferenciaResponseDTO inserir(@Valid @RequestBody TransferenciaRequestDTO request) {
-        log.info("INICIO - [inserir pessoas: {}]", request.getIdCliente());
-        var result = transferService.makeTransfer(request);
-        log.info("FIM - [inserir pessoas: {}]", request.getIdCliente());
+    public TransferenciaResponseDTO transfer(@Valid @RequestBody TransferenciaRequestDTO request) {
+        log.info("INICIO - [Transferencia de saldo da conta {} para {}]", request.getConta().getIdOrigem(), request.getConta().getIdDestino());
+        var result = transferService.transferBalance(request);
+        log.info("FIM - [Transferencia de saldo da conta {} para {}]", request.getConta().getIdOrigem(), request.getConta().getIdDestino());
         return result;
     }
 }

@@ -1,10 +1,9 @@
 package br.com.service.accountTransfer;
 
+import br.com.service.accountTransfer.config.AbstractTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class ApplicationTests {
+class ApplicationTests extends AbstractTest {
 
 	@Test
 	void contextLoads() {

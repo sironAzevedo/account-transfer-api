@@ -4,6 +4,6 @@ import br.com.service.accountTransfer.dtos.ClienteResponseDTO;
 
 public interface IClienteService {
 
-    ClienteResponseDTO getContaById(String idConta);
+    ClienteResponseDTO getById(String idConta);
 
 }
