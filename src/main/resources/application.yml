@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: accountTransfer
+
+api:
+  client:
+    url: http://localhost:9090/clientes
+  account:
+    url: http://localhost:9090/contas
+  bacen:
+    notificacao:
+      url: http://localhost:9090/notificacoes

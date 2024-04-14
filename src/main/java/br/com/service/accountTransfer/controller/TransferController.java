@@ -1,0 +1,42 @@
+package br.com.service.accountTransfer.controller;
+
+import br.com.service.accountTransfer.dtos.TransferenciaRequestDTO;
+import br.com.service.accountTransfer.dtos.TransferenciaResponseDTO;
+import br.com.service.accountTransfer.service.ITransferService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/transferencia")
+public class TransferController {
+
+    private final ITransferService transferService;
+
+    @PostMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    @Operation(
+            summary = "Realiza transferencia de valores entre contas",
+            tags = "Transferencia"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro de validação de campo"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    public TransferenciaResponseDTO inserir(@Valid @RequestBody TransferenciaRequestDTO request) {
+        log.info("INICIO - [inserir pessoas: {}]", request.getIdCliente());
+        var result = transferService.makeTransfer(request);
+        log.info("FIM - [inserir pessoas: {}]", request.getIdCliente());
+        return result;
+    }
+}
