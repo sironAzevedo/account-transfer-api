@@ -35,9 +35,9 @@ A API conta com as seguintes implementações:
 * Requisição realiza com sucesso:
   ![Alt text](/documentacao/Sucesso.png "Optional title")
 * Requisição realiza com erro de cliente não encontrado:
-  ![Alt text](/documentacao/Erro cliente.png "Optional title") 
+  ![Alt text](/documentacao/erro_cliente.png "Optional title") 
 * Requisição realiza com erro  de limite diario excedido:
-  ![Alt text](/documentacao/Erro limite diario excedido.png "Optional title")  
+  ![Alt text](/documentacao/erro_limite.png "Optional title")  
 
 
 
