@@ -42,7 +42,6 @@ public class TransferServiceImpl implements ITransferService {
         log.info("Realizando a transferencia");
         realizarTransferencia(transfer);
 
-        // Notificar o BACEN que a transação foi concluída com sucesso.
         log.info("Notificando que a transferencia foi realizando com sucesso ");
         notificarBacen(transfer);
 
