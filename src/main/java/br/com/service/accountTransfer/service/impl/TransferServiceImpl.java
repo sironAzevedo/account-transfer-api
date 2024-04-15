@@ -1,9 +1,9 @@
 package br.com.service.accountTransfer.service.impl;
 
 import br.com.service.accountTransfer.dtos.*;
+import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
-import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.service.IBacenService;
 import br.com.service.accountTransfer.service.IClienteService;
 import br.com.service.accountTransfer.service.IContaService;
@@ -14,11 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @Slf4j
 @Service
@@ -33,13 +33,8 @@ public class TransferServiceImpl implements ITransferService {
     @Transactional
     public TransferenciaResponseDTO transferBalance(@NonNull TransferenciaRequestDTO transfer) {
 
-        log.info("Veririficando se o cliente {} existe.", transfer.getIdCliente());
-        Optional.ofNullable(clienteService.getById(transfer.getIdCliente()))
-                .orElseThrow(() -> new APINotFoundException("Client not found"));
-
-        log.info("Buscando dados da conta {}.", transfer.getConta().getIdOrigem());
-        var conta = Optional.ofNullable(contaService.getContaById(transfer.getConta().getIdOrigem()))
-                .orElseThrow(() -> new AccountNotFoundException("Account origin not found"));
+        validClient(transfer.getIdCliente());
+        var conta = validConta(transfer.getConta().getIdOrigem());
 
         log.info("Verificando se a transferencia pode ser realizada.");
         validTransfer(conta, transfer.getValor());
@@ -54,6 +49,18 @@ public class TransferServiceImpl implements ITransferService {
         return TransferenciaResponseDTO.builder()
                 .idTransferencia(UUID.randomUUID())
                 .build();
+    }
+
+    private void validClient(String idCliente) {
+        log.info("Veririficando se o cliente {} existe.", idCliente);
+        Optional.ofNullable(clienteService.getById(idCliente))
+                .orElseThrow(() -> new APINotFoundException("Client not found"));
+    }
+
+    private ContaResponseDTO validConta(String idConta) {
+        log.info("Buscando dados da conta {}.", idConta);
+        return Optional.ofNullable(contaService.getContaById(idConta))
+                .orElseThrow(() -> new AccountNotFoundException("Account origin not found"));
     }
 
     // Validar se a conta corrente está ativa

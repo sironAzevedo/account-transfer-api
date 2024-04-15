@@ -30,6 +30,7 @@ A API conta com as seguintes implementações:
 ### 
 
 ### Arquitetura:
+![Alt text](/documentacao/arch.png "Optional title")
 
 ### Informações sobre as requisições via Postman:
 * Requisição realiza com sucesso:
