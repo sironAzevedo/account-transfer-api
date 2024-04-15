@@ -16,7 +16,6 @@ public class ClienteRepositoryImpl implements IClienteRepository {
 
     @Override
     public Optional<ClienteResponseDTO> getById(String idCliente) {
-        ClienteResponseDTO responseDTO = client.getById(idCliente);
-        return Optional.ofNullable(responseDTO);
+        return Optional.ofNullable(client.getById(idCliente));
     }
 }

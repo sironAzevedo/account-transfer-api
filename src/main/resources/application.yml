@@ -28,3 +28,6 @@ cache:
     caches[0]:
       cacheName: account-transfer:dadosClientePorCodigo
       expiration: ${CACHE_DURATION_DADOS_PESSOA:PT30S}
+    caches[1]:
+      cacheName: account-transfer:dadosContaPorCodigo
+      expiration: ${CACHE_DURATION_DADOS_CONTA:PT1H}

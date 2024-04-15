@@ -1,6 +1,7 @@
 package br.com.service.accountTransfer.service.impl;
 
 import br.com.service.accountTransfer.dtos.ClienteResponseDTO;
+import br.com.service.accountTransfer.handler.exception.ClientNotFoundException;
 import br.com.service.accountTransfer.repository.IClienteRepository;
 import br.com.service.accountTransfer.service.IClienteService;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,13 @@ public class ClienteServiceImpl implements IClienteService {
     private final IClienteRepository clienteRepository;
 
     @Override
-    @Cacheable(value = "account-transfer:dadosClientePorCodigo", key = "#idConta", unless="#result == null")
-    public ClienteResponseDTO getById(String idConta) {
-        return clienteRepository.getById(idConta)
-                .orElse(null);
+    @Cacheable(value = "account-transfer:dadosClientePorCodigo", key = "#idCliente", unless="#result == null")
+    public ClienteResponseDTO getById(String idCliente) {
+        try {
+            return clienteRepository.getById(idCliente)
+                    .orElse(null);
+        } catch (Exception e) {
+            throw new ClientNotFoundException("Client " + e.getMessage());
+        }
     }
 }
