@@ -1,7 +1,9 @@
 package br.com.service.accountTransfer.config;
 
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
@@ -12,10 +14,12 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
+@WireMockTest(httpPort = 8080)
 public abstract class AbstractTest {
 
     @LocalServerPort
     private int port;
 
     public AbstractTest() {}
+
 }

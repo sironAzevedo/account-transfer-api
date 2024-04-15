@@ -2,7 +2,7 @@ package br.com.service.accountTransfer.handler;
 
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
-import br.com.service.accountTransfer.handler.exception.ClientNotFoundException;
+import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseBody
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = { ClientNotFoundException.class, AccountNotFoundException.class })
+    @ExceptionHandler(value = { APINotFoundException.class, AccountNotFoundException.class })
     public StandardError emptyResultNotFound(RuntimeException e, HttpServletRequest request) {
         return StandardError.builder(HttpStatus.NOT_FOUND.value(), e.getMessage(), new Date());
     }

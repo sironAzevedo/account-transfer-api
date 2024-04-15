@@ -10,7 +10,7 @@ public class FeignConfig {
 
     @Bean
     public Retryer retryer() {
-        return new Retryer.Default(1000, 8000, 3);  // Intervalo inicial, intervalo máximo, e máx tentativas
+        return new Retryer.Default(1000, 3000, 3);  // Intervalo inicial, intervalo máximo, e máx tentativas
     }
 
     @Bean

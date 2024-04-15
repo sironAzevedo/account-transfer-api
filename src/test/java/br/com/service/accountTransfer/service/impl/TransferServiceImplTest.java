@@ -8,7 +8,7 @@ import br.com.service.accountTransfer.dtos.SaldoRequestDTO;
 import br.com.service.accountTransfer.dtos.TransferenciaRequestDTO;
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
-import br.com.service.accountTransfer.handler.exception.ClientNotFoundException;
+import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.service.IBacenService;
 import br.com.service.accountTransfer.service.IClienteService;
 import br.com.service.accountTransfer.service.IContaService;
@@ -83,7 +83,7 @@ public class TransferServiceImplTest extends AbstractTest {
     @DisplayName("Deve lancar exception quando cliente não encontrado")
     public void deveLancarExceptionQuandoClienteNotFound() {
         when(clienteService.getById(anyString())).thenReturn(null);
-        assertThrows(ClientNotFoundException.class, () -> transferService.transferBalance(transferRequest()));
+        assertThrows(APINotFoundException.class, () -> transferService.transferBalance(transferRequest()));
     }
 
     @Test

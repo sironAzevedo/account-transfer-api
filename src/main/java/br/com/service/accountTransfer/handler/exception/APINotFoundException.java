@@ -2,11 +2,14 @@ package br.com.service.accountTransfer.handler.exception;
 
 import lombok.Getter;
 
+import java.io.Serial;
+
 @Getter
-public class ClientNotFoundException extends RuntimeException {
+public class APINotFoundException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    public ClientNotFoundException(String message) {
+    public APINotFoundException(String message) {
         super(message);
     }
 }

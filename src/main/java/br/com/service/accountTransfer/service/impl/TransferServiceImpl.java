@@ -3,7 +3,7 @@ package br.com.service.accountTransfer.service.impl;
 import br.com.service.accountTransfer.dtos.*;
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
-import br.com.service.accountTransfer.handler.exception.ClientNotFoundException;
+import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.service.IBacenService;
 import br.com.service.accountTransfer.service.IClienteService;
 import br.com.service.accountTransfer.service.IContaService;
@@ -35,7 +35,7 @@ public class TransferServiceImpl implements ITransferService {
 
         log.info("Veririficando se o cliente {} existe.", transfer.getIdCliente());
         Optional.ofNullable(clienteService.getById(transfer.getIdCliente()))
-                .orElseThrow(() -> new ClientNotFoundException("Client not found"));
+                .orElseThrow(() -> new APINotFoundException("Client not found"));
 
         log.info("Buscando dados da conta {}.", transfer.getConta().getIdOrigem());
         var conta = Optional.ofNullable(contaService.getContaById(transfer.getConta().getIdOrigem()))
@@ -60,8 +60,14 @@ public class TransferServiceImpl implements ITransferService {
     // Validar se o cliente tem saldo disponível na conta corrente para realizar a transferência
     // Validar se o limite diário do cliente é maior que zero e maior que o valor da transferência a ser realizada
     private void validTransfer(@NonNull ContaResponseDTO conta, @NonNull BigDecimal valor) {
+
+        log.info("Verificando se a conta está ativa.");
         if (!conta.isAtivo()) throw new BusinessException(UNPROCESSABLE_ENTITY, "Conta não está ativa.");
+
+        log.info("Verificando se a conta contém saldo suficiente.");
         if (conta.getSaldo().compareTo(valor) < 0) throw new BusinessException(UNPROCESSABLE_ENTITY,"Saldo insuficiente.");
+
+        log.info("Verificando se o valor da transferencia está de acordo com o limite diário.");
         if (conta.getLimiteDiario().compareTo(valor) < 0) throw new BusinessException(UNPROCESSABLE_ENTITY,"Limite diário excedido.");
     }
 

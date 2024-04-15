@@ -1,7 +1,7 @@
 package br.com.service.accountTransfer.service.impl;
 
 import br.com.service.accountTransfer.dtos.ClienteResponseDTO;
-import br.com.service.accountTransfer.handler.exception.ClientNotFoundException;
+import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.repository.IClienteRepository;
 import br.com.service.accountTransfer.service.IClienteService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class ClienteServiceImpl implements IClienteService {
             return clienteRepository.getById(idCliente)
                     .orElse(null);
         } catch (Exception e) {
-            throw new ClientNotFoundException("Client " + e.getMessage());
+            throw new APINotFoundException("Client " + e.getMessage());
         }
     }
 }
