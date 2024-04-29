@@ -8,11 +8,6 @@ spring:
     default-property-inclusion: NON_NULL
     serialization:
       write_dates_as_timestamps: false
-  redis:
-    password: ${REDIS_PASSWORD:}
-    database: ${REDIS_DATABASE:0}
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
 
 api:
   client:
@@ -25,9 +20,17 @@ api:
 
 cache:
   redis:
+    config:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      database: ${REDIS_DATABASE:0}
+      password: ${REDIS_PASSWORD:}
     caches[0]:
       cacheName: account-transfer:dadosClientePorCodigo
       expiration: ${CACHE_DURATION_DADOS_PESSOA:PT30S}
     caches[1]:
       cacheName: account-transfer:dadosContaPorCodigo
       expiration: ${CACHE_DURATION_DADOS_CONTA:PT1H}
+#    caches[2]:
+#      cacheName: account-transfer:dadosContaPorSaldo
+#      expiration: ${CACHE_DURATION_DADOS_CONTA:PT1H}

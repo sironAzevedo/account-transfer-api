@@ -7,5 +7,7 @@ public interface IContaService {
 
     ContaResponseDTO getContaById(String idConta);
 
+    ContaResponseDTO getSaldo(String saldo);
+
     void transferBalance(SaldoRequestDTO saldo);
 }

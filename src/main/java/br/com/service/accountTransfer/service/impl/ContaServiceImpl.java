@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class ContaServiceImpl implements IContaService {
@@ -20,6 +22,17 @@ public class ContaServiceImpl implements IContaService {
     public ContaResponseDTO getContaById(String idConta) {
         return contaRepository.getById(idConta)
                 .orElse(null);
+    }
+
+    @Override
+    @Cacheable(value = "account-transfer:dadosContaPorSaldo", key = "#saldo", unless="#result == null")
+    public ContaResponseDTO getSaldo(String saldo) {
+        ContaResponseDTO r = new ContaResponseDTO();
+        r.setId("d0d32142-74b7-4aca-9c68-838aeacef96b");
+        r.setSaldo(BigDecimal.TEN);
+        r.setLimiteDiario(BigDecimal.TEN);
+        r.setAtivo(true);
+        return r;
     }
 
     @Override
