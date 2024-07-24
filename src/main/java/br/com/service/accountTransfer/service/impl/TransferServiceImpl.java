@@ -1,16 +1,20 @@
 package br.com.service.accountTransfer.service.impl;
 
-import br.com.service.accountTransfer.dtos.*;
 import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
-import br.com.service.accountTransfer.service.IBacenService;
+import br.com.service.accountTransfer.models.dtos.ContaResponseDTO;
+import br.com.service.accountTransfer.models.dtos.SaldoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.TransferenciaRequestDTO;
+import br.com.service.accountTransfer.models.dtos.TransferenciaResponseDTO;
+import br.com.service.accountTransfer.models.event.TransferenciaEvent;
 import br.com.service.accountTransfer.service.IClienteService;
 import br.com.service.accountTransfer.service.IContaService;
 import br.com.service.accountTransfer.service.ITransferService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +31,7 @@ public class TransferServiceImpl implements ITransferService {
 
     private final IClienteService clienteService;
     private final IContaService contaService;
-    private final IBacenService bacenService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -42,8 +46,8 @@ public class TransferServiceImpl implements ITransferService {
         log.info("Realizando a transferencia");
         realizarTransferencia(transfer);
 
-        log.info("Notificando que a transferencia foi realizando com sucesso ");
-        notificarBacen(transfer);
+        log.info("Notificando um evento de transferencia");
+        eventPublisher.publishEvent(new TransferenciaEvent(transfer));
 
         return TransferenciaResponseDTO.builder()
                 .idTransferencia(UUID.randomUUID())
@@ -86,12 +90,4 @@ public class TransferServiceImpl implements ITransferService {
         contaService.transferBalance(saldo);
     }
 
-    private void notificarBacen(@NonNull TransferenciaRequestDTO transfer) {
-        var notification = NotificacaoRequestDTO.builder()
-                .valor(transfer.getValor())
-                .conta(transfer.getConta())
-                .build();
-
-        bacenService.notification(notification);
-    }
 }

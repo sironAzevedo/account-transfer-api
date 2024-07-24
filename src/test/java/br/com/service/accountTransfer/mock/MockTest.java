@@ -1,6 +1,8 @@
 package br.com.service.accountTransfer.mock;
 
 import br.com.service.accountTransfer.dtos.*;
+import br.com.service.accountTransfer.models.dtos.*;
+import br.com.service.accountTransfer.models.enums.dtos.*;
 
 import java.math.BigDecimal;
 

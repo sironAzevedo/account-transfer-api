@@ -1,6 +1,6 @@
 package br.com.service.accountTransfer.repository.client;
 
-import br.com.service.accountTransfer.dtos.NotificacaoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.NotificacaoRequestDTO;
 import br.com.service.accountTransfer.infra.integracao.CustomErrorDecoder;
 import br.com.service.accountTransfer.infra.integracao.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;

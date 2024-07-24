@@ -2,10 +2,10 @@ package br.com.service.accountTransfer.service.impl;
 
 
 import br.com.service.accountTransfer.config.AbstractTest;
-import br.com.service.accountTransfer.dtos.ContaResponseDTO;
-import br.com.service.accountTransfer.dtos.NotificacaoRequestDTO;
-import br.com.service.accountTransfer.dtos.SaldoRequestDTO;
-import br.com.service.accountTransfer.dtos.TransferenciaRequestDTO;
+import br.com.service.accountTransfer.models.dtos.ContaResponseDTO;
+import br.com.service.accountTransfer.models.dtos.NotificacaoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.SaldoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.TransferenciaRequestDTO;
 import br.com.service.accountTransfer.handler.exception.AccountNotFoundException;
 import br.com.service.accountTransfer.handler.exception.BusinessException;
 import br.com.service.accountTransfer.handler.exception.APINotFoundException;
@@ -48,7 +48,7 @@ public class TransferServiceImplTest extends AbstractTest {
     @BeforeEach
     public void init() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        transferService = new TransferServiceImpl(clienteService, contaService, bacenService);
+//        transferService = new TransferServiceImpl(clienteService, contaService, bacenService);
     }
 
     @AfterEach

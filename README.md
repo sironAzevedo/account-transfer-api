@@ -41,4 +41,8 @@ A API conta com as seguintes implementações:
   ![Alt text](/documentacao/erro_limite.png "Optional title")  
 
 
+### LocalSatck:  
+Install aws-cli: https://www.treinaweb.com.br/blog/como-instalar-e-configurar-o-aws-cli
+
+
 

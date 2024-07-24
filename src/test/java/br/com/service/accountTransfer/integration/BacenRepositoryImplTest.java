@@ -1,7 +1,7 @@
 package br.com.service.accountTransfer.integration;
 
 import br.com.service.accountTransfer.config.AbstractTest;
-import br.com.service.accountTransfer.dtos.NotificacaoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.NotificacaoRequestDTO;
 import br.com.service.accountTransfer.mock.MockTest;
 import br.com.service.accountTransfer.repository.IBacenRepository;
 import br.com.service.accountTransfer.utils.JsonUtils;

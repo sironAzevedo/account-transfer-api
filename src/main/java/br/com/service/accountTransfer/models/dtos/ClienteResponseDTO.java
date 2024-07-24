@@ -1,4 +1,4 @@
-package br.com.service.accountTransfer.dtos;
+package br.com.service.accountTransfer.models.dtos;
 
 import lombok.*;
 

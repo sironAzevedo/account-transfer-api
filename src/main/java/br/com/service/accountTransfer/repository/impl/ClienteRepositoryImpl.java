@@ -1,6 +1,6 @@
 package br.com.service.accountTransfer.repository.impl;
 
-import br.com.service.accountTransfer.dtos.ClienteResponseDTO;
+import br.com.service.accountTransfer.models.dtos.ClienteResponseDTO;
 import br.com.service.accountTransfer.repository.IClienteRepository;
 import br.com.service.accountTransfer.repository.client.ClientAPI;
 import lombok.RequiredArgsConstructor;

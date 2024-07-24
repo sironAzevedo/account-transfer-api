@@ -1,6 +1,7 @@
 package br.com.service.accountTransfer.controller;
 
-import br.com.service.accountTransfer.dtos.ContaResponseDTO;
+import br.com.service.accountTransfer.models.dtos.ContaResponseDTO;
+import br.com.service.accountTransfer.infra.log.Loggable;
 import br.com.service.accountTransfer.service.IContaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,11 +31,9 @@ public class ContaController {
             @ApiResponse(responseCode = "422", description = "Erro de negocio"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+    @Loggable
     public ContaResponseDTO getConta(@PathVariable("codigo") String codigo) {
-        log.info("INICIO - [consulta dados da conta {}]", codigo);
-        var result = contaService.getContaById(codigo);
-        log.info("FIM - [consulta dados da conta {}]", codigo);
-        return result;
+        return contaService.getContaById(codigo);
     }
 
     @GetMapping("saldo/{saldo}")

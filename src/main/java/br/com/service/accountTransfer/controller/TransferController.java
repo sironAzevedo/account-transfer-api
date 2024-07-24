@@ -1,7 +1,7 @@
 package br.com.service.accountTransfer.controller;
 
-import br.com.service.accountTransfer.dtos.TransferenciaRequestDTO;
-import br.com.service.accountTransfer.dtos.TransferenciaResponseDTO;
+import br.com.service.accountTransfer.models.dtos.TransferenciaRequestDTO;
+import br.com.service.accountTransfer.models.dtos.TransferenciaResponseDTO;
 import br.com.service.accountTransfer.service.ITransferService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

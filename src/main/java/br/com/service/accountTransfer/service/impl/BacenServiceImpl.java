@@ -1,6 +1,6 @@
 package br.com.service.accountTransfer.service.impl;
 
-import br.com.service.accountTransfer.dtos.NotificacaoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.NotificacaoRequestDTO;
 import br.com.service.accountTransfer.repository.IBacenRepository;
 import br.com.service.accountTransfer.service.IBacenService;
 import lombok.RequiredArgsConstructor;

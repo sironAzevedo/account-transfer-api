@@ -1,6 +1,6 @@
 package br.com.service.accountTransfer.service.impl;
 
-import br.com.service.accountTransfer.dtos.ClienteResponseDTO;
+import br.com.service.accountTransfer.models.dtos.ClienteResponseDTO;
 import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.repository.IClienteRepository;
 import br.com.service.accountTransfer.service.IClienteService;

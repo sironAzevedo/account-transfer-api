@@ -1,7 +1,7 @@
 package br.com.service.accountTransfer.repository;
 
-import br.com.service.accountTransfer.dtos.ContaResponseDTO;
-import br.com.service.accountTransfer.dtos.SaldoRequestDTO;
+import br.com.service.accountTransfer.models.dtos.ContaResponseDTO;
+import br.com.service.accountTransfer.models.dtos.SaldoRequestDTO;
 
 import java.util.Optional;
 

@@ -1,13 +1,18 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:9080}
 
 spring:
   application:
     name: accountTransfer
   jackson:
     default-property-inclusion: NON_NULL
+    deserialization:
+      read_unknown_enum_values_as_null: true
     serialization:
       write_dates_as_timestamps: false
+  cloud:
+    config:
+      enabled: false
 
 api:
   client:
@@ -17,6 +22,22 @@ api:
   bacen:
     notificacao:
       url: http://localhost:9090/notificacoes
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY:test}
+      secret-key: ${AWS_SECRET_KEY:test}
+    region:
+      static: ${AWS_REGION:us-east-1}
+    endpoint:
+      uri: http://localhost:4566
+    s3:
+      endpoint: http://s3.localhost.localstack.cloud:4566/
+
+events:
+  topic: sns-transaction
+  queue: notification-queue
 
 cache:
   redis:

@@ -1,7 +1,7 @@
 package br.com.service.accountTransfer.integration;
 
 import br.com.service.accountTransfer.config.AbstractTest;
-import br.com.service.accountTransfer.dtos.ClienteResponseDTO;
+import br.com.service.accountTransfer.models.dtos.ClienteResponseDTO;
 import br.com.service.accountTransfer.handler.exception.APINotFoundException;
 import br.com.service.accountTransfer.repository.IClienteRepository;
 import com.github.tomakehurst.wiremock.client.WireMock;
