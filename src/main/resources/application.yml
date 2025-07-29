@@ -48,7 +48,7 @@ cache:
       password: ${REDIS_PASSWORD:}
     caches[0]:
       cacheName: account-transfer:dadosClientePorCodigo
-      expiration: ${CACHE_DURATION_DADOS_PESSOA:PT30S}
+      expiration: ${CACHE_DURATION_DADOS_PESSOA:PT1H}
     caches[1]:
       cacheName: account-transfer:dadosContaPorCodigo
       expiration: ${CACHE_DURATION_DADOS_CONTA:PT1H}

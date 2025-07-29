@@ -7,6 +7,7 @@ import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.Delay;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurer;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -62,7 +64,15 @@ public class RedisCacheFactory implements CachingConfigurer {
                 .clientResources(clientResources)
                 .build();
 
-        LettuceConnectionFactory factory = new LettuceConnectionFactory(new RedisStandaloneConfiguration(host, port), clientConfig);
+        RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration(host, port);
+        if (ObjectUtils.isNotEmpty(database)) {
+            standaloneConfiguration.setDatabase(database);
+        }
+        if (StringUtils.isNotEmpty(password)) {
+            standaloneConfiguration.setPassword(RedisPassword.of(password));
+        }
+
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(standaloneConfiguration, clientConfig);
         factory.setShareNativeConnection(false);
         factory.afterPropertiesSet();
         return factory;

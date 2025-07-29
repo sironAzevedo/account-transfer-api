@@ -15,6 +15,8 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - automacao-net
 
 #  fatura-services:
 #    container_name: fatura-services
@@ -35,4 +37,4 @@ services:
 networks:
   automacao-net:
     external:
-      name: automacao-resgate-fatura_automacao-net
+      name: app-network
